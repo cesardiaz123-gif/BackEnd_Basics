@@ -1,0 +1,23 @@
+#use an official node.js runtime as a parent image 
+FROM node:24-alpine
+
+#set the docker directory in the container
+WORKDIR /app
+
+#Copy the package.json and package.lock.json files to the container 
+COPY package*.json .
+
+#Instalar las dependencias
+RUN npm install
+
+# copiar el resto de la aplicacion 
+COPY . .
+
+#expose the port that the app runs on 
+EXPOSE 2323
+
+
+# Define the command to run the application 
+
+CMD ["node", "./src/server.js"]
+

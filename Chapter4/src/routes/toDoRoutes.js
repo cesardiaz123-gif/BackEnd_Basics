@@ -49,16 +49,20 @@ router.put('/:id', async (req,res) => {
     res.json(updatedTodo)
 })
 
-router.delete('/:id', (req,res) => {
+router.delete('/:id', async  (req,res) => {
     
     const {id} = req.params
-    const deleteTodo = db.prepare('DELETE FROM todos WHERE id = ? AND user_id=?')
     const userId = req.userId
 
-    deleteTodo.run(id, userId)
-    res.sendStatus(200)
+    await prisma.todo.delete({
+        where:{
+            id:parseInt(id),
+            userId
+        }
+    })
     
-
+    res.send({message: 'todo Deleted'})
+    
 })
 
 export default router;
