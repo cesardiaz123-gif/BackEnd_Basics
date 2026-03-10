@@ -1,0 +1,21 @@
+### TEST GET HOMEPAGE WEBSITE 
+GET  http://localhost:2323
+
+### TEST GET DASHBOARD WEBSITE 
+GET  http://localhost:2323/dashboard
+
+### TEST GET DATA 
+GET  http://localhost:2323/api/data
+ 
+### DATA ENDPOINT FOR ADDING AN USER 
+POST  http://localhost:2323/api/data
+Content-Type: application/json
+
+{
+    "name": "louivi",
+    "lastName": "Salgado"
+}
+
+
+### DELETE ENDPOINT
+DELETE  http://localhost:2323/api/endpoint
