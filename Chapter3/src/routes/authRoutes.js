@@ -10,7 +10,6 @@ router.post('/register', (req,res) => {
 
     //Encriptar la contraseña con bcript
     const hashedPassword = bcript.hashSync(password, 8)
-    console.log(hashedPassword)
 
     //guardar el usuario y la contraseña hasheada a la base de datos
     try {
