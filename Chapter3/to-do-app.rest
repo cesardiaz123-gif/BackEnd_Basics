@@ -1,0 +1,51 @@
+###GET WEBSITE ENDPOINT 
+GET  http://localhost:5000
+
+###Registrar un usuario al endpoint /register
+POST http://localhost:2323/auth/register
+Content-Type: application/json
+
+{
+    "username":"Laura Valentina",
+    "password":"123123123"
+}
+
+###Logear un usuario al Endpoint /login
+POST http://localhost:2323/auth/login
+Content-Type: application/json
+
+{
+    "username":"Laura Valentina",
+    "password":"123123123"
+}
+
+### Fetch a todos los endpoints de toDos (esta protegido por jwt)
+
+GET http://localhost:2323/todos
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzczMTU3OTk2LCJleHAiOjE3NzMyNDQzOTZ9.J_VhgmhKg7FMEKYPnZKf38YRugLB2lITpgO8fiGDdW8
+Content-Type: application/json
+
+### crear to do 
+POST http://localhost:2323/todos
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzczMTU3OTk2LCJleHAiOjE3NzMyNDQzOTZ9.J_VhgmhKg7FMEKYPnZKf38YRugLB2lITpgO8fiGDdW8
+Content-Type: application/json
+
+{
+    "task": "tercer coso este"
+}
+
+
+###Update a ToDo TODO/:ID(protected)
+
+PUT http://localhost:2323/todos/2
+Content-Type: application/json
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzczMTU2MjY0LCJleHAiOjE3NzMyNDI2NjR9.cUeNMJjrVYJ9o3dqAEEtqEXKFXnnBkTJCMIa3fWEUfs
+
+{
+    "completed": 1
+}
+
+### Delete a todo TODOS/:ID (protected)
+
+DELETE http://localhost:2323/todos/1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzczMTU3OTk2LCJleHAiOjE3NzMyNDQzOTZ9.J_VhgmhKg7FMEKYPnZKf38YRugLB2lITpgO8fiGDdW8

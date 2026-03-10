@@ -52,7 +52,7 @@
     </main>
 </body>
 <script>
-    let token = localStorage.getItem('token')
+    let token = null
 
     let isLoading = false
     let isAuthenticating = false
@@ -185,12 +185,11 @@
             isAuthenticating ||
             !emailVal ||
             !passVal ||
-            passVal.length < 6 ||
-            !emailVal.includes('@')
+            passVal.length < 6
         ) { return }
 
         // reset error and set isAuthenticating to true
-        error.style.display = 'none'
+        textError.style.display = 'none'
         isAuthenticating = true
         authBtn.innerText = 'Authenticating...'
 
@@ -216,7 +215,6 @@
 
             if (data.token) {
                 token = data.token
-                localStorage.setItem('token', token)
 
                 // authenicating into loading
                 authBtn.innerText = 'Loading...'
@@ -232,8 +230,8 @@
 
         } catch (err) {
             console.log(err.message)
-            error.innerText = err.message
-            error.style.display = 'block'
+            textError.innerText = err.message
+            textError.style.display = 'block'
         } finally {
             authBtn.innerText = 'Submit'
             isAuthenticating = false
@@ -250,13 +248,22 @@
 
     async function fetchTodos() {
         isLoading = true
-        const response = await fetch(apiBase + 'todos', {
-            headers: { 'Authorization': token }
-        })
-        const todosData = await response.json()
-        todos = todosData
-        isLoading = false
-        renderTodos()
+        try {
+            const response = await fetch(apiBase + 'todos', {
+                headers: { 'Authorization': token }
+            })
+
+            if (!response.ok) {
+                throw Error('Failed to load todos')
+            }
+
+            const todosData = await response.json()
+            todos = todosData
+            renderTodos()
+        } finally {
+            // Always release loading state so auth submit is never blocked forever.
+            isLoading = false
+        }
     }
 
     async function updateTodo(index) {
@@ -312,8 +319,14 @@
     // if is authenticated, show todo app
     if (token) {
         async function run() {
-            await fetchTodos()
-            showDashboard()
+            try {
+                await fetchTodos()
+                showDashboard()
+            } catch (err) {
+                token = null
+                textError.innerText = 'Session expired. Please login again.'
+                textError.style.display = 'block'
+            }
         }
         run()
     }
