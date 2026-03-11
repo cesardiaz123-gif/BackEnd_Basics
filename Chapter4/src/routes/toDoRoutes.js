@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.get('/', async (req,res) => {
 
-    const todos = prisma.todos.findMany({
+    const todos = await prisma.todo.findMany({
         where:{
             userId:req.userId
         }
@@ -20,7 +20,7 @@ router.post('/', async (req,res) => {
 
     const {task} = req.body;
 
-    const todo = await prisma.todos.create({
+    const todo = await prisma.todo.create({
         data:{
             task,
             userId:req.userId
@@ -35,7 +35,7 @@ router.put('/:id', async (req,res) => {
     const {completed} = req.body
     const {id} = req.params
 
-    const updatedTodo = await prisma.todo.update({
+    const updatedTodo = await prisma.todo.updateMany({
         where:{
             id:parseInt(id),
             userId: req.userId
@@ -54,7 +54,7 @@ router.delete('/:id', async  (req,res) => {
     const {id} = req.params
     const userId = req.userId
 
-    await prisma.todo.delete({
+    await prisma.todo.deleteMany({
         where:{
             id:parseInt(id),
             userId
