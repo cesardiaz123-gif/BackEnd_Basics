@@ -6,7 +6,7 @@ import todoRoutes from './routes/toDoRoutes.js'
 import authMiddleware from "./middleware/authMiddleware.js";
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 2323;
 
 //obtener la direccion del archivo desde la URL del modulo 
 const __filename = fileURLToPath(import.meta.url)
